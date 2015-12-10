@@ -1,4 +1,3 @@
-
 import csv
 import socket
 import time
@@ -174,6 +173,8 @@ three = 4 * PIXEL_SIZE
 two = 6 * PIXEL_SIZE
 one = 8 * PIXEL_SIZE
 
+pixel_output = bytearray(num_leds * PIXEL_SIZE + 3)
+
 for i in range(256):
         gamma[i] = int(pow(float(i) / 255.0, 2.5) * 255.0)
 
@@ -231,9 +232,48 @@ def fade():
                 time.sleep((refresh_rate) / 1000.0)
 
 
+def smile(color):
+    pixel_output = bytearray(num_leds * PIXEL_SIZE + 3)
+
+    for pixel_offset in [(x * 3) for x in range(num_leds)]:
+
+                    if pixel_offset >= smile and pixel_offset < three:
+                          pixel_output[pixel_offset:] = color
+                    else:
+                          pixel_output[pixel_offset:] = BLACK
+
+def three(color):
+    pixel_output = bytearray(num_leds * PIXEL_SIZE + 3)
+
+    for pixel_offset in [(x * 3) for x in range(num_leds)]:
+
+                    if pixel_offset >= three and pixel_offset < two:
+                          pixel_output[pixel_offset:] = color
+                    else:
+                          pixel_output[pixel_offset:] = BLACK
 #fade()
 
-pixel_output = bytearray(num_leds * PIXEL_SIZE + 3)
+def two(color):
+    pixel_output = bytearray(num_leds * PIXEL_SIZE + 3)
+
+    for pixel_offset in [(x * 3) for x in range(num_leds)]:
+
+                    if pixel_offset >= two and pixel_offset < one:
+                          pixel_output[pixel_offset:] = color
+                    else:
+                          pixel_output[pixel_offset:] = BLACK
+
+
+def one(color):
+    pixel_output = bytearray(num_leds * PIXEL_SIZE + 3)
+
+    for pixel_offset in [(x * 3) for x in range(num_leds)]:
+
+                    if pixel_offset >= one:
+                          pixel_output[pixel_offset:] = color
+                    else:
+                          pixel_output[pixel_offset:] = BLACK
+
 
 for pixel_offset in [(x * 3) for x in range(num_leds)]:
 
@@ -295,5 +335,15 @@ write_stream(pixel_output)
 spidev.flush()
 
 time.sleep(5)
+
+smile(RED)
+time.sleep(1)
+
+one(GREEN)
+time.sleep(1)
+
+two(BLUE)
+time.sleep(1)
+
 
 fade()
