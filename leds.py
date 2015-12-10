@@ -232,7 +232,7 @@ def fade():
                 time.sleep((refresh_rate) / 1000.0)
 
 
-def smile(color):
+def smile_led(color):
     pixel_output = bytearray(num_leds * PIXEL_SIZE + 3)
 
     for pixel_offset in [(x * 3) for x in range(num_leds)]:
@@ -242,7 +242,10 @@ def smile(color):
                     else:
                           pixel_output[pixel_offset:] = BLACK
 
-def three(color):
+    write_stream(pixel_output)
+    spidev.flush()
+
+def three_led(color):
     pixel_output = bytearray(num_leds * PIXEL_SIZE + 3)
 
     for pixel_offset in [(x * 3) for x in range(num_leds)]:
@@ -251,9 +254,10 @@ def three(color):
                           pixel_output[pixel_offset:] = color
                     else:
                           pixel_output[pixel_offset:] = BLACK
-#fade()
+    write_stream(pixel_output)
+    spidev.flush()
 
-def two(color):
+def two_led(color):
     pixel_output = bytearray(num_leds * PIXEL_SIZE + 3)
 
     for pixel_offset in [(x * 3) for x in range(num_leds)]:
@@ -262,9 +266,10 @@ def two(color):
                           pixel_output[pixel_offset:] = color
                     else:
                           pixel_output[pixel_offset:] = BLACK
+    write_stream(pixel_output)
+    spidev.flush()
 
-
-def one(color):
+def one_led(color):
     pixel_output = bytearray(num_leds * PIXEL_SIZE + 3)
 
     for pixel_offset in [(x * 3) for x in range(num_leds)]:
@@ -273,7 +278,8 @@ def one(color):
                           pixel_output[pixel_offset:] = color
                     else:
                           pixel_output[pixel_offset:] = BLACK
-
+    write_stream(pixel_output)
+    spidev.flush()
 
 for pixel_offset in [(x * 3) for x in range(num_leds)]:
 
@@ -336,14 +342,19 @@ spidev.flush()
 
 time.sleep(5)
 
-smile(RED)
+smile_led(RED)
 time.sleep(1)
 
-one(GREEN)
+one_led(GREEN)
 time.sleep(1)
 
-two(BLUE)
+two_led(BLUE)
 time.sleep(1)
 
+three_led(YELLOW)
+time.sleep(1)
+
+smile_led(PAPAYAWHIP)
+time.sleep(1)
 
 fade()
